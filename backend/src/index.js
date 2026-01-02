@@ -8,8 +8,25 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://pate-data.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json());
+
+// Debug root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Pastebin Lite Backend is running!',
+    timestamp: new Date().toISOString(),
+    env: {
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT,
+      DATABASE_URL: process.env.DATABASE_URL ? 'SET' : 'NOT SET',
+      BASE_URL: process.env.BASE_URL || 'NOT SET'
+    }
+  });
+});
 
 // Health check endpoint
 app.get('/api/healthz', async (req, res) => {
