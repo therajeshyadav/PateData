@@ -1,6 +1,6 @@
 // API-based paste storage
 
-const API_BASE = (import.meta as any).env?.VITE_API_URL || '';
+const API_BASE = (import.meta as any).env?.VITE_API_URL || 'https://pastedata.onrender.com';
 
 export interface Paste {
   id: string;
