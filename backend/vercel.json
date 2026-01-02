@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/healthz", "destination": "/api/healthz" },
+    { "source": "/api/pastes", "destination": "/api/pastes/index" },
+    { "source": "/api/pastes/:id", "destination": "/api/pastes/[id]" },
+    { "source": "/p/:id", "destination": "/api/p/[id]" }
+  ]
+}
