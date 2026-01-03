@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { PasteView } from '@/components/PasteView';
-import { FileText } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 
 const ViewPaste = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,7 @@ const ViewPaste = () => {
         <div className="container py-4">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-all duration-200 hover:scale-105">
             <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-primary/80">
-              <FileText className="w-5 h-5 text-primary-foreground" />
+              <Code2 className="w-5 h-5 text-primary-foreground" />
             </div>
             <h1 className="text-lg font-semibold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
               CodeShare

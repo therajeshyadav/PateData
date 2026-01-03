@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { FileText, Home } from "lucide-react";
+import { Code2, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
@@ -15,7 +15,7 @@ const NotFound = () => {
       <div className="text-center max-w-md mx-auto p-8">
         <div className="mb-8">
           <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-primary to-primary/80 flex items-center justify-center">
-            <FileText className="w-12 h-12 text-primary-foreground" />
+            <Code2 className="w-12 h-12 text-primary-foreground" />
           </div>
           <h1 className="text-6xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent mb-4">
             404

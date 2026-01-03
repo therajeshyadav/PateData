@@ -1,5 +1,5 @@
 import { PasteForm } from '@/components/PasteForm';
-import { FileText } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -8,7 +8,7 @@ const Index = () => {
         <div className="container py-4">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-primary/80">
-              <FileText className="w-5 h-5 text-primary-foreground" />
+              <Code2 className="w-5 h-5 text-primary-foreground" />
             </div>
             <h1 className="text-lg font-semibold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
               CodeShare
