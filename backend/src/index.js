@@ -9,8 +9,15 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: ['https://pate-data.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
-  credentials: true
+  origin: [
+    'https://pate-data.vercel.app', 
+    'http://localhost:5173', 
+    'http://localhost:3000',
+    'http://localhost:8080'  // Added for your local frontend
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-test-now-ms']
 }));
 app.use(express.json());
 

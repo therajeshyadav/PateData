@@ -1,6 +1,9 @@
 // API-based paste storage
 
-const API_BASE = (import.meta as any).env?.VITE_API_URL || 'https://pastedata.onrender.com';
+const API_BASE = 'https://pastedata.onrender.com'; // Hardcoded for now
+
+console.log('🔍 DEBUG: API_BASE =', API_BASE);
+console.log('🔍 DEBUG: VITE_API_URL =', (import.meta as any).env?.VITE_API_URL);
 
 export interface Paste {
   id: string;
@@ -43,9 +46,8 @@ export async function createPaste(
   }
 
   const data = await response.json();
-  // Construct URL using current origin (frontend URL)
-  const url = `${window.location.origin}/p/${data.id}`;
-  return { id: data.id, url };
+  // Use the URL returned by backend (which has correct BASE_URL)
+  return { id: data.id, url: data.url };
 }
 
 export async function getPaste(
