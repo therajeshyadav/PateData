@@ -49,10 +49,14 @@ export function PasteView({ id }: PasteViewProps) {
   if (loading) {
     return (
       <div className="w-full max-w-2xl mx-auto animate-fade-in">
-        <div className="p-8 rounded-md bg-card border border-border">
+        <div className="p-8 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 shadow-lg">
           <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-muted rounded w-1/4"></div>
-            <div className="h-32 bg-muted rounded"></div>
+            <div className="h-4 bg-gradient-to-r from-muted to-accent/50 rounded w-1/4"></div>
+            <div className="h-32 bg-gradient-to-r from-muted to-accent/50 rounded"></div>
+            <div className="flex gap-2">
+              <div className="h-4 bg-gradient-to-r from-muted to-accent/50 rounded w-1/6"></div>
+              <div className="h-4 bg-gradient-to-r from-muted to-accent/50 rounded w-1/4"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -62,14 +66,21 @@ export function PasteView({ id }: PasteViewProps) {
   if (error) {
     return (
       <div className="w-full max-w-2xl mx-auto animate-fade-in">
-        <div className="p-8 rounded-md bg-card border border-destructive/20">
+        <div className="p-8 rounded-lg bg-card/50 backdrop-blur-sm border border-destructive/20 shadow-lg">
           <div className="flex items-center gap-3 text-destructive mb-4">
-            <AlertCircle className="w-5 h-5" />
-            <h2 className="text-lg font-medium">Paste Unavailable</h2>
+            <div className="p-2 rounded-lg bg-destructive/10">
+              <AlertCircle className="w-5 h-5" />
+            </div>
+            <h2 className="text-lg font-medium">Snippet Unavailable</h2>
           </div>
           <p className="text-muted-foreground mb-6">{error.error}</p>
           <Link to="/">
-            <Button variant="outline">Create New Paste</Button>
+            <Button 
+              variant="outline"
+              className="bg-gradient-to-r from-background to-accent/20 hover:from-primary/10 hover:to-primary/20 hover:border-primary/50 transition-all duration-200"
+            >
+              Create New Paste
+            </Button>
           </Link>
         </div>
       </div>
@@ -80,18 +91,22 @@ export function PasteView({ id }: PasteViewProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-fade-in">
-      <div className="rounded-md bg-card border border-border overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 bg-muted/50 border-b border-border">
+      <div className="rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 overflow-hidden shadow-lg">
+        <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-muted/50 to-accent/30 border-b border-border/50">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             {data.remaining_views !== null && (
-              <span className="flex items-center gap-1.5">
-                <Eye className="w-4 h-4" />
+              <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-background/50">
+                <div className="p-1 rounded bg-primary/10">
+                  <Eye className="w-3 h-3 text-primary" />
+                </div>
                 {data.remaining_views} view{data.remaining_views !== 1 ? 's' : ''} remaining
               </span>
             )}
             {data.expires_at && (
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4" />
+              <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-background/50">
+                <div className="p-1 rounded bg-primary/10">
+                  <Clock className="w-3 h-3 text-primary" />
+                </div>
                 Expires: {formatExpiry(data.expires_at)}
               </span>
             )}
@@ -100,13 +115,13 @@ export function PasteView({ id }: PasteViewProps) {
             variant="ghost"
             size="sm"
             onClick={copyToClipboard}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200"
           >
-            {copied ? <Check className="w-4 h-4 mr-1.5" /> : <Copy className="w-4 h-4 mr-1.5" />}
+            {copied ? <Check className="w-4 h-4 mr-1.5 text-success" /> : <Copy className="w-4 h-4 mr-1.5" />}
             {copied ? 'Copied' : 'Copy'}
           </Button>
         </div>
-        <pre className="p-4 overflow-x-auto">
+        <pre className="p-4 overflow-x-auto bg-background/30">
           <code className="font-mono text-sm text-foreground whitespace-pre-wrap break-words">
             {data.content}
           </code>
@@ -115,7 +130,12 @@ export function PasteView({ id }: PasteViewProps) {
 
       <div className="mt-6 text-center">
         <Link to="/">
-          <Button variant="outline">Create New Paste</Button>
+          <Button 
+            variant="outline" 
+            className="bg-gradient-to-r from-background to-accent/20 hover:from-primary/10 hover:to-primary/20 hover:border-primary/50 transition-all duration-200"
+          >
+            Create New Paste
+          </Button>
         </Link>
       </div>
     </div>

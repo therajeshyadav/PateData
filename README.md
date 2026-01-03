@@ -1,93 +1,205 @@
-# Pastebin Lite
+# 🚀 CodeShare
 
-A simple Pastebin-like application where users can create text pastes and share links to view them. Supports optional TTL (time-to-live) and view count limits.
+> **A modern, beautiful code and text sharing platform with a stunning purple-themed UI**
 
-## Project Structure
+Share your code snippets and text instantly with optional expiry times and view limits. Built with React, TypeScript, and Node.js.
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 🎨 **Modern UI** | Beautiful purple & blue gradient design |
+| 📝 **Instant Sharing** | Share code and text snippets with one click |
+| ⏰ **Smart Expiry** | Set custom TTL (time-to-live) for snippets |
+| 👁️ **View Limits** | Control how many times a snippet can be viewed |
+| 🌙 **Dark Mode** | Automatic dark/light theme support |
+| 📱 **Responsive** | Works perfectly on all devices |
+| �  **Secure** | XSS protection and safe snippet handling |
+| ⚡ **Fast** | Serverless architecture for lightning speed |
+
+---
+
+## 🏗️ Architecture
 
 ```
-├── backend/          # Node.js API (Vercel serverless functions)
-└── quick-paste-main/ # React frontend (Vite + TypeScript)
+CodeShare/
+├── 🎯 backend/     # Node.js API (Vercel Functions)
+└── 🎨 Frontned/    # React Frontend (Vite + TypeScript)
 ```
 
-## Persistence Layer
+**Database:** 🐘 Neon PostgreSQL (Serverless)
 
-**Neon PostgreSQL** - A serverless PostgreSQL database that provides persistent storage across serverless function invocations. The database schema is automatically initialized on first request.
+---
 
-## Running Locally
+## 🚀 Quick Start
 
-### Prerequisites
-- Node.js >= 18
-- A Neon PostgreSQL database (get one free at https://neon.tech)
+### 📋 Prerequisites
 
-### Backend Setup
+- **Node.js** >= 18.0.0
+- **Neon PostgreSQL** database ([Get free account](https://neon.tech))
+
+### 🔧 Backend Setup
 
 ```bash
+# Navigate to backend
 cd backend
+
+# Install dependencies
 npm install
 
-# Create .env file
+# Setup environment
 cp .env.example .env
-# Edit .env and add your DATABASE_URL
+# 📝 Edit .env and add your DATABASE_URL
 ```
 
-Required environment variables:
-- `DATABASE_URL` - Neon PostgreSQL connection string
-- `TEST_MODE` - Set to `1` to enable deterministic time testing (optional)
-- `BASE_URL` - Your deployed URL (optional, auto-detected)
+**Environment Variables:**
+```env
+DATABASE_URL=postgresql://user:pass@host/db?sslmode=require
+TEST_MODE=1                    # Optional: Enable testing mode
+BASE_URL=http://localhost:3001 # Optional: Auto-detected
+```
 
-Start the backend:
+**Start Backend:**
 ```bash
 npm run dev
 ```
+🌐 Backend runs on: `http://localhost:3001`
 
-Backend runs on http://localhost:3001
-
-### Frontend Setup
+### 🎨 Frontend Setup
 
 ```bash
-cd quick-paste-main
+# Navigate to frontend
+cd Frontned
+
+# Install dependencies
 npm install
 
-# Optional: Create .env for API URL
+# Optional: Configure API URL
 echo "VITE_API_URL=http://localhost:3001" > .env
 ```
 
-Start the frontend:
+**Start Frontend:**
 ```bash
 npm run dev
 ```
+🌐 Frontend runs on: `http://localhost:5173`
 
-Frontend runs on http://localhost:5173
+---
 
-## Deployment to Vercel
+## 🌐 Deployment
 
-### Backend Deployment
+### 🚀 Deploy Backend to Vercel
 
-1. Push code to GitHub
-2. Import the `backend` folder in Vercel
-3. Set environment variables:
-   - `DATABASE_URL`: Your Neon connection string
-   - `TEST_MODE`: `1` (for automated testing)
-   - `BASE_URL`: Your deployed URL
+1. **Push to GitHub** 📤
+2. **Import** `backend` folder in Vercel
+3. **Set Environment Variables:**
+   ```env
+   DATABASE_URL=your_neon_connection_string
+   TEST_MODE=1
+   BASE_URL=https://your-app.vercel.app
+   ```
 
-### Frontend Deployment
+### 🎨 Deploy Frontend to Vercel
 
-1. Import the `quick-paste-main` folder in Vercel
-2. Set `VITE_API_URL` to your backend URL
+1. **Import** `Frontned` folder in Vercel
+2. **Set Environment Variable:**
+   ```env
+   VITE_API_URL=https://your-backend-url.vercel.app
+   ```
 
-## API Endpoints
+---
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/healthz` | Health check |
-| POST | `/api/pastes` | Create a paste |
-| GET | `/api/pastes/:id` | Get paste (JSON) |
-| GET | `/p/:id` | View paste (HTML) |
+## 📡 API Reference
 
-## Design Decisions
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| `GET` | `/api/healthz` | 🏥 Health check | `{ "ok": true }` |
+| `POST` | `/api/pastes` | ✨ Create snippet | `{ "id": "abc123", "url": "..." }` |
+| `GET` | `/api/pastes/:id` | 📄 Get snippet (JSON) | `{ "content": "...", "remaining_views": 5 }` |
+| `GET` | `/p/:id` | 🌐 View snippet (HTML) | HTML page |
 
-1. **Neon PostgreSQL**: Chosen for serverless compatibility - persists data across cold starts
-2. **Atomic view counting**: Uses `UPDATE ... WHERE ... RETURNING` to prevent race conditions under concurrent load
-3. **XSS Prevention**: All paste content is HTML-escaped before rendering
-4. **Deterministic testing**: Supports `x-test-now-ms` header when `TEST_MODE=1`
-5. **No global mutable state**: Each request creates a fresh database connection via Neon's serverless driver
+### 📝 Create Snippet Example
+
+```bash
+curl -X POST http://localhost:3001/api/pastes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "console.log(\"Hello CodeShare!\");",
+    "ttl_seconds": 3600,
+    "max_views": 10
+  }'
+```
+
+---
+
+## 🏛️ Architecture & Design
+
+### 🎯 Key Design Decisions
+
+| Decision | Reason | Benefit |
+|----------|--------|---------|
+| **🐘 Neon PostgreSQL** | Serverless compatibility | Persists data across cold starts |
+| **⚡ Atomic Operations** | `UPDATE ... WHERE ... RETURNING` | Prevents race conditions |
+| **🛡️ XSS Prevention** | HTML escaping | Secure snippet rendering |
+| **🧪 Deterministic Testing** | `x-test-now-ms` header support | Reliable TTL testing |
+| **🚀 Single Function** | All routes in one handler | Optimized cold starts |
+
+### 🛠️ Tech Stack
+
+**Frontend:**
+- ⚛️ React 18 + TypeScript
+- 🎨 Tailwind CSS + Custom Gradients  
+- 🏗️ Vite (Build Tool)
+- 🎭 Lucide Icons
+- 📱 Responsive Design
+
+**Backend:**
+- 🟢 Node.js + Express
+- 🐘 Neon PostgreSQL
+- ☁️ Vercel Serverless Functions
+- 🔒 XSS Protection
+
+---
+
+## 📸 Screenshots
+
+> 🎨 **Beautiful Purple Theme**
+> 
+> Modern gradient UI with glass-morphism effects and smooth animations
+
+---
+
+## 🤝 Contributing
+
+1. **Fork** the repository
+2. **Create** your feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- 🎨 **Tailwind CSS** for the amazing styling system
+- 🐘 **Neon** for serverless PostgreSQL
+- ☁️ **Vercel** for seamless deployment
+- ⚛️ **React Team** for the incredible framework
+
+---
+
+<div align="center">
+
+**Made with ❤️ and lots of ☕**
+
+[⭐ Star this repo](https://github.com/yourusername/codeshare) • [🐛 Report Bug](https://github.com/yourusername/codeshare/issues) • [✨ Request Feature](https://github.com/yourusername/codeshare/issues)
+
+</div>
